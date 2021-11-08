@@ -1,0 +1,109 @@
+{
+	"name": "metacare",
+	"version": "0.0.0",
+	"description": "Basic API",
+	"main": "main",
+	"scripts": {
+		"prestart": "node check-env.js DB_USER DB_URI DB_PASSWORD DB_NAME NODE_ENV LOG_LEVEL",
+		"test": "nyc mocha --timeout 10000 --exit",
+		"pretest": "npm run prestart",
+		"pretest-coverage": "npm run prestart",
+		"test-coverage": "istanbul cover _mocha --exit",
+		"start": "node ./build/app",
+		"seed:superAdmin": "ts-node-dev --transpileOnly ./db/seeds/seed.ts",
+		"build": "tsc",
+		"prod": "build && node ./build/app",
+		"t": "node ./generators/index.js",
+		"constant": "npm run t g constant",
+		"model": "npm run t g model",
+		"module": "npm run t g module",
+		"tests": "npm run t g test",
+		"dev": "set DEBUG=metacare* & npm run prestart && ts-node-dev --respawn --transpileOnly ./app",
+		"dev:mac": "npm run prestart && DEBUG=metacare* ts-node-dev --respawn --transpileOnly ./app"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/isahohieku/metacare.git"
+	},
+	"keywords": [
+		"metacare",
+		"api",
+		"test",
+		"movie",
+		"swapi"
+	],
+	"author": "Isah Ohieku",
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/isahohieku/blog-backend/issues"
+	},
+	"homepage": "https://github.com/isahohieku/blog-backend#readme",
+	"devDependencies": {
+		"@types/chai": "^4.1.7",
+		"@types/compression": "0.0.36",
+		"@types/cors": "^2.8.4",
+		"@types/debug": "^4.1.4",
+		"@types/dotenv": "^6.1.1",
+		"@types/express": "^4.16.1",
+		"@types/helmet": "0.0.42",
+		"@types/mocha": "^5.2.7",
+		"@types/request": "^2.48.1",
+		"@types/sinon": "^7.0.13",
+		"@types/supertest": "^2.0.8",
+		"@typescript-eslint/eslint-plugin": "^1.11.0",
+		"@typescript-eslint/parser": "^1.11.0",
+		"chai": "^4.2.0",
+		"debug": "^4.1.1",
+		"eslint": "^5.16.0",
+		"eslint-config-strongloop": "^2.1.0",
+		"istanbul": "^1.1.0-alpha.1",
+		"mocha": "^5.2.0",
+		"nyc": "^14.1.1",
+		"sinon": "^6.3.5",
+		"source-map-support": "^0.5.12",
+		"supertest": "^3.3.0",
+		"ts-node-dev": "1.0.0-pre.43",
+		"tslint": "~5.11.0",
+		"typescript": "3.6.4"
+	},
+	"dependencies": {
+		"body-parser": "^1.18.3",
+		"compression": "^1.7.4",
+		"cors": "2.8.5",
+		"cowsay": "^1.1.9",
+		"dotenv": "^6.2.0",
+		"express": "^4.16.4",
+		"express-paginate": "1.0.0",
+		"express-rate-limit": "3.4.0",
+		"helmet": "3.15.1",
+		"knex": "^0.18.3",
+		"pg": "^7.11.0",
+		"swagger-ui-express": "^4.1.4",
+		"winston": "^3.2.1"
+	},
+	"nyc": {
+		"extension": [
+			".ts"
+		],
+		"exclude": [
+			"**/*.d.ts",
+			"*.js",
+			"test"
+		],
+		"reporter": [
+			"html",
+			"lcov"
+		],
+		"cache": false,
+		"all": false,
+		"report-dir": "./coverage",
+		"lines": 80,
+		"statements": 80,
+		"functions": 80,
+		"branches": 80,
+		"check-coverage": true
+	},
+	"engines": {
+		"node": "10.16.0"
+	}
+}
