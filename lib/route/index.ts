@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction} from 'express';
-import HttpMethod from '../httpMethod';
+import HttpMethod from '../httpMethods';
 
 export interface RouteHandler {
     (req: Request, res: Response, next: NextFunction): Promise<void>;

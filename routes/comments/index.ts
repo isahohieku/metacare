@@ -1,6 +1,6 @@
 import Route from "../../lib/route";
-import HttpMethod from "../../lib/httpMethod";
-import Comment from '../../controllers/comment';
+import HttpMethod from "../../lib/httpMethods";
+import Comment from '../../controllers/comments';
 import { validateComment } from "../../validators/comment";
 
 const COMMENT_URL = '/api/comments';

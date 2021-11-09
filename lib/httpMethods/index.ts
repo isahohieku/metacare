@@ -1,8 +1,8 @@
-enum HttpMethod {
+enum HttpMethods {
     POST = 'post',
     GET = 'get',
     DELETE = 'delete',
     PUT = 'put'
 }
 
-export default HttpMethod;
+export default HttpMethods;

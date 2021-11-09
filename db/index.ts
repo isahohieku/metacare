@@ -1,13 +1,21 @@
 import { config } from 'dotenv';
+import { Config } from 'knex';
+
 config({ path: __dirname + '/../.env' });
 import Logger from '../utils/logger';
 
-const _Config = {
-    getKnexInstance(): {} {
-        // if (process.env.SITE === 'production') {
-        //     return this.production;
-        // }
-        if (process.env.SITE === 'test') {
+const { 
+    ENV,
+    DB_HOST,
+    DB_NAME,
+    DB_USERNAME,
+    DB_PASSWORD,
+    DB_PORT
+} = process.env;
+
+const dbConfig = {
+    getKnexInstance(): Config {
+        if (ENV === 'test') {
             return this.test;
         }
         return this.development;
@@ -15,15 +23,11 @@ const _Config = {
     development: {
         client: 'pg',
         connection: {
-            host: process.env.DB_HOST,
-            database: process.env.DB_NAME,
-            user: process.env.DB_USERNAME,
-            password: process.env.DB_PASSWORD,
-            port: process.env.DB_PORT
-        },
-        migrations: {
-            tableName: 'knex_migrations',
-            directory: 'migrations'
+            host: DB_HOST,
+            database: DB_NAME,
+            user: DB_USERNAME,
+            password: DB_PASSWORD,
+            port: DB_PORT
         },
         acquireConnectionTimeout: 3000,
         pool: {
@@ -35,31 +39,25 @@ const _Config = {
                     callback(err, connection);
                 });
             }
-        },
-        seeds: {
-            directory: './seeds/dev'
         }
     },
     test: {
         client: 'pg',
         connection: {
-            host: process.env.DB_HOST,
-            database: process.env.DB_NAME,
-            user: process.env.DB_USERNAME,
-            password: process.env.DB_PASSWORD,
-            port: process.env.DB_PORT
+            host: DB_HOST,
+            database: DB_NAME,
+            user: DB_USERNAME,
+            password: DB_PASSWORD,
+            port: DB_PORT
         },
         acquireConnectionTimeout: 3000,
         pool: {
             min: 1,
             max: 1
-        },
-        seeds: {
-            directory: './seeds/dev'
         }
     }
 };
 
-const knexConfig = _Config.getKnexInstance();
+const knexConfig = dbConfig.getKnexInstance();
 
 export default knexConfig;

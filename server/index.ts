@@ -3,7 +3,6 @@ dotenv.config();
 import path from 'path';
 import express, {Express, Request, Response } from 'express';
 import { createServer, Server as HTTPServer } from 'http';
-// import Db from '../db';
 import swaggerUi from 'swagger-ui-express';
 import Logger from '../utils/logger';
 import middlewares from '../middlewares';
@@ -17,7 +16,6 @@ export default class Server {
     public app: Express;
 
     public constructor() {
-        this.setupDb();
         this.initializeApp();
         this.setupViewEngine();
         this.configureMiddlewares();
@@ -58,11 +56,6 @@ export default class Server {
             res.render('index');
         });
     }
-
-    private setupDb(): void {
-        /* Setup Db */
-        // Db();
-    } 
 
     private setupViewEngine(): void {
         this.app.set('views', path.join(__dirname, '../', 'public'));
