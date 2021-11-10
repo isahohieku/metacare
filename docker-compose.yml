@@ -1,11 +1,13 @@
 version: "3"
 services:
-  web:
+  app:
     build: .
-    volumes:
-      - .:/usr/src/app
+    depends_on:
+      - db
     ports:
       - 4000:4000
+    env_file:
+      - .env
     environment:
       PORT: 4000
       LOG_LEVEL: info
@@ -13,16 +15,23 @@ services:
       DB_NAME: $DB_NAME
       DB_USER: $DB_USER
       DB_PASSWORD: $DB_PASSWORD
-      DB_HOST: $DB_HOST
+      DB_HOST: db
       DB_PORT: $DB_PORT
+    command: npm run start
       
   db:
     image: postgres:12
+    restart: always
     ports:
       - 5432:5432
-    volumes:
-      - ./docker/db/pgdata:/var/lib/postgresql/data
+    env_file: 
+        - .env
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: app
+      POSTGRES_USER: $DB_USER
+      POSTGRES_PASSWORD: $DB_PASSWORD
+      POSTGRES_DB: $DB_NAME
+    volumes:
+      - database-data:/var/lib/postgresql/data/
+
+volumes:
+  database-data:

@@ -8,7 +8,7 @@ const {
     ENV,
     DB_HOST,
     DB_NAME,
-    DB_USERNAME,
+    DB_USER,
     DB_PASSWORD,
     DB_PORT
 } = process.env;
@@ -25,7 +25,7 @@ const dbConfig = {
         connection: {
             host: DB_HOST,
             database: DB_NAME,
-            user: DB_USERNAME,
+            user: DB_USER,
             password: DB_PASSWORD,
             port: DB_PORT
         },
@@ -51,7 +51,7 @@ const dbConfig = {
         connection: {
             host: DB_HOST,
             database: DB_NAME,
-            user: DB_USERNAME,
+            user: DB_USER,
             password: DB_PASSWORD,
             port: DB_PORT
         },

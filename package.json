@@ -15,7 +15,7 @@
 		"rollback": "npm run prestart && knex migrate:rollback --env development --knexfile ./db/knexfile.ts",
 		"rollback-js": "npm run prestart && knex migrate:rollback --env development --knexfile ./db/knexfile.js",
 		"copy-files": "cp -r ./public ./build",
-		"start": "node ./build/app",
+		"start": "npm run migrate && node ./build/app",
 		"build": "tsc && npm run copy-files",
 		"prod": "build && node ./build/app",
 		"t": "node ./generators/index.js",
