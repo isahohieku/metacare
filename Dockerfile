@@ -1,7 +1,7 @@
 FROM node:12
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
-COPY package.json package-lock.json ./
+COPY package.json ./
 RUN npm i
 COPY . .
 RUN npm run build
