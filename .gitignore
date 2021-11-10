@@ -69,3 +69,5 @@ package-lock.json
 .next
 
 .DS_Store
+
+docker

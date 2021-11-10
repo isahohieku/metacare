@@ -14,8 +14,9 @@
 		"migrate-test-js": "npm run prestart && knex migrate:latest --env test --knexfile ./db/knexfile.js",
 		"rollback": "npm run prestart && knex migrate:rollback --env development --knexfile ./db/knexfile.ts",
 		"rollback-js": "npm run prestart && knex migrate:rollback --env development --knexfile ./db/knexfile.js",
+		"copy-files": "cp -r ./public ./build",
 		"start": "node ./build/app",
-		"build": "tsc",
+		"build": "tsc && npm run copy-files",
 		"prod": "build && node ./build/app",
 		"t": "node ./generators/index.js",
 		"constant": "npm run t g constant",
@@ -69,7 +70,7 @@
 		"supertest": "^3.3.0",
 		"ts-node-dev": "1.0.0-pre.43",
 		"tslint": "~5.11.0",
-		"typescript": "3.6.4"
+		"typescript": "^3.7.3"
 	},
 	"dependencies": {
 		"axios": "^0.24.0",
@@ -84,6 +85,7 @@
 		"helmet": "3.15.1",
 		"joi": "^13.7.0",
 		"knex": "^0.21.1",
+		"moment": "^2.29.1",
 		"objection": "^2.1.3",
 		"pg": "^8.0.3",
 		"pug": "^3.0.0",
