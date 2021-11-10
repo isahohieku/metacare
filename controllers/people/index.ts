@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import sendSuccess from '../../responses/success';
 import {
     getPeopleRequest,
-    SortOptions,
+    SortPeopleOptions,
     OtherPeopleProperties,
     sortedItems,
     Order,
@@ -10,7 +10,7 @@ import {
     convertCmToInches
 } from '../../lib/swapi';
 
-class CharacterController {
+class PeopleController {
     public constructor() { }
 
     public async getPeople(req: Request, res: Response, next: NextFunction): Promise<void> {
@@ -23,7 +23,7 @@ class CharacterController {
             const filters = Object.keys(rest);
 
             // search keys
-            const searchs = Object.values({ ...SortOptions, ...OtherPeopleProperties });
+            const searchs = Object.values({ ...SortPeopleOptions, ...OtherPeopleProperties });
 
             // Apply Filters to characters
             people = people.filter((character): boolean =>
@@ -37,7 +37,7 @@ class CharacterController {
             }
 
             // Sort characters
-            people = sortedItems(people, sort as SortOptions | OtherPeopleProperties, order as Order);
+            people = sortedItems(people, sort as SortPeopleOptions | OtherPeopleProperties, order as Order);
 
             const totalHeights = sumData(people.map(({ height }): number => parseFloat(height)));
 
@@ -56,4 +56,4 @@ class CharacterController {
     }
 }
 
-export default new CharacterController();
+export default new PeopleController();

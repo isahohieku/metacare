@@ -9,17 +9,17 @@ Model.knex(knex);
 export interface CommentI {
     id: number;
     author: string;
-    movie: number;
+    filmId: number;
     comment: string;
     createdAt: string;
     updatedAt: string;
 }
 
 class CommentModel extends Model {
-    public id?: string;
-    public movie: number;
+    public id?: number;
+    public filmId: number;
     public author: string;
-    public comment?: string;
+    public comment: string;
     public createdAt?: string;
     public updatedAt?: string;
 
@@ -44,23 +44,18 @@ class CommentModel extends Model {
         this.updatedAt = moment().toISOString(true);
     }
 
-    // Optional JSON schema. This is not the database schema!
-    // No tables or columns are generated based on this. This is only
-    // used for input validation. Whenever a model instance is created
-    // either explicitly or implicitly it is checked against this schema.
-    // See http://json-schema.org/ for more info.
-
-    /** An example of the Objection jsonSchema */
     public static get jsonSchema(): {} {
         return {
             type: 'object',
-            required: ['comment'],
+            required: ['comment', 'author', 'filmId'],
 
             properties: {
-                id: {type: 'integer'},
-                comment: { type: 'string'},
-                createdAt: {type: 'string'},
-                updatedAt: {type: 'string'}
+                id: { type: 'integer' },
+                filmId: { type: 'integer' },
+                comment: { type: 'string' },
+                author: { type: 'string' },
+                createdAt: { type: 'string' },
+                updatedAt: { type: 'string' }
             }
         };
     }

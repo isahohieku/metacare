@@ -9,8 +9,7 @@ const Routes: Route[] = [
         path: FILMS_URL,
         method: HttpMethod.GET,
         middlewares: [],
-        // controller: [Films.getComments]
-        controller: []
+        controller: [Films.getFilms]
     }
 ];
 

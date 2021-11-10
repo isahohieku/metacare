@@ -4,7 +4,7 @@ import { Config } from 'knex';
 config({ path: __dirname + '/../.env' });
 import Logger from '../utils/logger';
 
-const { 
+const {
     ENV,
     DB_HOST,
     DB_NAME,
@@ -39,6 +39,11 @@ const dbConfig = {
                     callback(err, connection);
                 });
             }
+        },
+        migrations: {
+            extension: 'ts',
+            directory: 'migrations',
+            tableName: 'migrations_history'
         }
     },
     test: {

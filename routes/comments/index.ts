@@ -17,12 +17,6 @@ const Routes: Route[] = [
         method: HttpMethod.POST,
         middlewares: [validateComment],
         controller: [Comment.addComment]
-    },
-    {
-        path: COMMENT_URL,
-        method: HttpMethod.DELETE,
-        middlewares: [],
-        controller: [Comment.deleteComment]
     }
 ];
 

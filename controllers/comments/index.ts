@@ -1,105 +1,48 @@
 import { Request, Response, NextFunction } from 'express';
 import sendSuccess from '../../responses/success';
-// import { Comment, CommentI } from '../../models/comments';
 import CustomError from '../../responses/error/custom-error';
 import httpCodes from '../../constants/http-status-codes';
 import responseCodes from '../../constants/response-codes';
 import responseMessage from '../../constants/response-messages';
+import CommentModel from '../../models/comments';
 
 class LikeService {
     public constructor() { }
 
     public async getComments(req: Request, res: Response, next: NextFunction): Promise<void> {
         try {
-            const { article } = req.query;
-
-            // let result = article ? await Comment.find({ article, author: user.id })
-            //     : await Comment.find({ author: user.id });
-
-            // sendSuccess(res, 'controller:comment', result);
-
+            const result = await CommentModel.query().where({ ...req.query }).orderBy('createdAt', 'desc');
+            sendSuccess(res, 'controller:comment', result);
         } catch (e) {
             next(e);
         }
     }
 
     public async addComment(req: Request, res: Response, next: NextFunction): Promise<void> {
+        console.log(req.socket.remoteAddress);
         try {
-            const { body, article } = req.body;
+            const { filmId, comment } = req.body;
+            const ipAddress = req.headers['x-forwarded-for'] as string || req.socket.remoteAddress;
 
-            // const user: Partial<UserI> = verifyTok(null, null, token);
+            if (!ipAddress) 
+                throw new CustomError(responseCodes.FORBIDDEN, responseMessage.FORBIDDEN, httpCodes.FORBIDDEN);
 
-            // const query = new Comment();
-            // query.author = user.id;
-            // query.body = body as string;
-            // query.article = article;
+            if (String(comment).length > 500) 
+                throw new CustomError(
+                    responseCodes.FORBIDDEN, 
+                    'Comment must be less than 500 characters', 
+                    httpCodes.FORBIDDEN
+                );
 
-            // const result = await query.save();
+            const newComment = await CommentModel.query().insert({
+                author: ipAddress,
+                comment,
+                filmId
+            });
 
-            // sendSuccess(res, 'controller:comment', result);
-            return;
-
+            sendSuccess(res, 'controller:comment', newComment);
         } catch (e) {
-            next(e);
-        }
-    }
-
-    public async updateComment(req: Request, res: Response, next: NextFunction): Promise<void> {
-        try {
-            // const { body, id } = req.body;
-
-            // const token: string = pickToken(req);
-            // const user: Partial<UserI> = verifyTok(null, null, token);
-
-            // const comment: CommentI = await Comment.findOne({ _id: id });
-
-            // if (comment) {
-            //     if (String(comment.author) !== user.id) {
-            //         throw new CustomError(responseCodes.FORBIDDEN,
-            //             'You have no privilege to perform this action', httpCodes.FORBIDDEN);
-            //     }
-            // }
-
-            // const params: Partial<CommentI> = { body };
-
-            // const result = await Comment.findOneAndUpdate({ _id: id }, params, { new: true });
-
-            // sendSuccess(res, 'controller:comment', result);
-            // return;
-
-        } catch (e) {
-            next(e);
-        }
-    }
-
-    public async deleteComment(req: Request, res: Response, next: NextFunction): Promise<void> {
-        try {
-            const { id } = req.query;
-
-            if (!id) {
-                throw new CustomError(responseCodes.INVALID_PARAMS,
-                    'id of comment required', httpCodes.FORBIDDEN);
-            }
-
-            // const token: string = pickToken(req);
-            // const user: Partial<UserI> = verifyTok(null, null, token);
-
-            // const comment: CommentI = await Comment.findOne({ _id: id as string });
-
-            // if (comment) {
-            //     if (String(comment.author) !== String(user.id)) {
-            //         throw new CustomError(responseCodes.FORBIDDEN,
-            //             'You have no privilege to perform this action', httpCodes.FORBIDDEN);
-            //     }
-            // }
-
-            // const result = await Comment.findOneAndDelete({ _id: id });
-
-            // sendSuccess(res, 'controller:comment', result);
-            return;
-
-        } catch (e) {
-            console.log(e);
+            console.log('e', e);
             next(e);
         }
     }

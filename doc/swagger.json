@@ -19,13 +19,13 @@
         "http"
     ],
     "paths": {
-        "/film": {
+        "/films": {
             "get": {
                 "tags": [
                     "Films"
                 ],
                 "summary": "Get films",
-                "description": "Endpoint for getting movies",
+                "description": "Get films",
                 "operationId": "getFilms",
                 "consumes": [
                     "application/json"
@@ -35,33 +35,26 @@
                 ],
                 "parameters": [
                     {
-                        "name": "id",
+                        "name": "query",
                         "in": "query",
-                        "description": "Id of a film",
-                        "required": false,
-                        "type": "integer",
-                        "format": "int64"
-                    },
-                    {
-                        "name": "title",
-                        "in": "query",
-                        "description": "Title of a film",
+                        "description": "Search for either name, opening crawl, producer, director of a film",
                         "required": false,
                         "type": "string"
                     },
                     {
-                        "name": "crawl",
+                        "name": "order",
                         "in": "query",
-                        "description": "Crawl of the film",
-                        "required": false,
-                        "type": "string"
-                    },
-                    {
-                        "name": "producer",
-                        "in": "query",
-                        "description": "A producer of the film",
-                        "required": false,
-                        "type": "string"
+                        "description": "Return result in either ascending or descending order. 1 is Ascending and -1 is Descending",
+                        "required": true,
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "enum": [
+                                "1",
+                                "-1"
+                            ],
+                            "default": "1"
+                        }
                     }
                 ],
                 "responses": {
@@ -86,7 +79,7 @@
                     "People"
                 ],
                 "summary": "Get people",
-                "description": "Endpoint for starwars characters",
+                "description": "Get Star wars characters",
                 "operationId": "getPeople",
                 "consumes": [
                     "application/json"
@@ -156,7 +149,7 @@
                     "Comments"
                 ],
                 "summary": "Add comments",
-                "description": "add comments on a starwars film",
+                "description": "Add comments on a Star wars film",
                 "operationId": "addComment",
                 "consumes": [
                     "application/json"
@@ -195,7 +188,7 @@
                     "Comments"
                 ],
                 "summary": "Get comments",
-                "description": "Endpoint for comments dropped on starwars films",
+                "description": "Get comments dropped on Star wars films",
                 "operationId": "getComment",
                 "consumes": [
                     "application/json"
@@ -207,13 +200,13 @@
                     {
                         "name": "id",
                         "in": "query",
-                        "description": "Id of a character",
+                        "description": "Id of a comment",
                         "required": false,
                         "type": "integer",
                         "format": "int64"
                     },
                     {
-                        "name": "film",
+                        "name": "filmId",
                         "in": "query",
                         "description": "Film id",
                         "required": false,
@@ -380,7 +373,7 @@
         "AddComment": {
             "type": "object",
             "properties": {
-                "id": {
+                "filmId": {
                     "type": "integer",
                     "format": "int64"
                 },
@@ -431,9 +424,6 @@
                     }
                 }
             }
-        },
-        "xml": {
-            "name": "ApiResponse"
         }
     }
 }

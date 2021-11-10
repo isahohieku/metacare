@@ -1,6 +1,7 @@
 import axios, { AxiosResponse } from 'axios';
-import { FilmsI } from 'models/films';
-import { PeopleI } from 'models/people';
+import * as Joi from 'joi';
+import { FilmsI } from '../../models/films';
+import { PeopleI } from '../../models/people';
 
 const SWAPI_BASE_URL = 'https://swapi.dev/api/';
 
@@ -14,7 +15,7 @@ export enum Order {
     descending = '-1'
 };
 
-export enum SortOptions {
+export enum SortPeopleOptions {
     name = 'name',
     height = 'height',
     gender = 'gender'
@@ -27,18 +28,31 @@ export enum OtherPeopleProperties {
     skinColor = 'skin_color'
 }
 
+export enum SortFilmsOptions {
+    title = 'title',
+    releaseDate = 'release_date',
+}
+
+export enum OtherFilmsProperties {
+    producer = 'producer',
+    director = 'director',
+    openingCrawl = 'opening_crawl',
+}
+
+const isValidDate = (sample): number => {
+    return !isNaN(Date.parse(sample)) ? Date.parse(sample) : 0;
+};
+
 export const sortedItems = (
-    data: PeopleI[],
-    sort: SortOptions | OtherPeopleProperties = SortOptions.name,
+    data,
+    sort: SortPeopleOptions | OtherPeopleProperties | SortFilmsOptions | OtherFilmsProperties = SortPeopleOptions.name,
     order: Order = Order.ascending
-): PeopleI[] => {
+): any[] => {
     return data.sort((a, b): number => {
-        if (a[sort] < b[sort]) {
-            return order === Order.ascending ? -1 : 1;
-        }
-        if (a[sort] > b[sort]) {
-            return order === Order.ascending ? 1 : -1;
-        }
+        if ((Number(a[sort]) || isValidDate(a[sort]) || a[sort])
+            < (Number(b[sort]) || isValidDate(b[sort]) || b[sort])) return order === Order.ascending ? -1 : 1;
+        if ((Number(a[sort]) || isValidDate(a[sort]) || a[sort])
+            > (Number(b[sort]) || isValidDate(b[sort]) || b[sort])) return order === Order.ascending ? 1 : -1;
         return 0;
     });
 };
@@ -59,6 +73,6 @@ export const getPeopleRequest = (id: string = ''): Promise<AxiosResponse<{ resul
     return axios.get(`${SWAPI_BASE_URL}${SwapiResource.people}/${id}`);
 };
 
-export const getFilmsRequest = (id: string = ''): Promise<AxiosResponse<FilmsI>> => {
+export const getFilmsRequest = (id: string = ''): Promise<AxiosResponse<{ results: FilmsI[] }>> => {
     return axios.get(`${SWAPI_BASE_URL}${SwapiResource.films}/${id}`);
 };
