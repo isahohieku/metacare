@@ -61,7 +61,7 @@
                     "200": {
                         "description": "successful operation",
                         "schema": {
-                            "$ref": "#/definitions/ApiResponse"
+                            "$ref": "#/definitions/FilmResponse"
                         }
                     },
                     "400": {
@@ -131,7 +131,7 @@
                     "200": {
                         "description": "successful operation",
                         "schema": {
-                            "$ref": "#/definitions/ApiResponse"
+                            "$ref": "#/definitions/PeopleResponse"
                         }
                     },
                     "400": {
@@ -172,7 +172,7 @@
                     "200": {
                         "description": "successful operation",
                         "schema": {
-                            "$ref": "#/definitions/ApiResponse"
+                            "$ref": "#/definitions/AddCommentsResponse"
                         }
                     },
                     "400": {
@@ -218,7 +218,7 @@
                     "200": {
                         "description": "successful operation",
                         "schema": {
-                            "$ref": "#/definitions/ApiResponse"
+                            "$ref": "#/definitions/GetCommentsResponse"
                         }
                     },
                     "400": {
@@ -236,24 +236,18 @@
             "type": "object",
             "properties": {
                 "id": {
-                    "type": "string"
+                    "type": "integer",
+                    "format": "int64"
                 },
-                "body": {
-                    "type": "string"
+                "filmId": {
+                    "type": "integer",
+                    "format": "int64"
                 },
                 "author": {
-                    "$ref": "#/definitions/User"
-                },
-                "article": {
                     "type": "string"
                 },
-                "likes": {
-                    "type": "integer",
-                    "format": "int32"
-                },
-                "dislikes": {
-                    "type": "integer",
-                    "format": "int32"
+                "comment": {
+                    "type": "string"
                 },
                 "createdAt": {
                     "type": "string",
@@ -268,102 +262,135 @@
         "Film": {
             "type": "object",
             "properties": {
-                "id": {
-                    "type": "string"
-                },
                 "title": {
                     "type": "string"
                 },
-                "body": {
+                "episode_id": {
                     "type": "string"
                 },
-                "slug": {
+                "opening_crawl": {
                     "type": "string"
                 },
-                "author": {
+                "director": {
+                    "type": "string"
+                },
+                "producer": {
+                    "type": "string"
+                },
+                "release_date": {
+                    "type": "string"
+                },
+                "characters": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "planets": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "starships": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "vehicles": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "species": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "created": {
                     "type": "string",
-                    "$ref": "#/definitions/User"
+                    "format": "date-time"
                 },
-                "tags": {
-                    "type": "array",
-                    "xml": {
-                        "name": "tag",
-                        "wrapped": true
-                    },
-                    "items": {
-                        "$ref": "#/definitions/Tag"
-                    }
+                "edited": {
+                    "type": "string",
+                    "format": "date-time"
                 },
-                "comments": {
-                    "type": "array",
-                    "xml": {
-                        "name": "comment",
-                        "wrapped": true
-                    },
-                    "items": {
-                        "$ref": "#/definitions/Comment"
-                    }
+                "url": {
+                    "type": "string"
                 },
-                "likes": {
+                "count": {
                     "type": "integer",
-                    "format": "int32"
-                },
-                "dislikes": {
-                    "type": "integer",
-                    "format": "int32"
-                },
-                "favourites": {
-                    "type": "integer",
-                    "format": "int32"
+                    "format": "int64"
                 }
             }
         },
         "People": {
             "type": "object",
             "properties": {
-                "id": {
+                "name": {
                     "type": "string"
                 },
-                "fullName": {
+                "height": {
                     "type": "string"
                 },
-                "email": {
+                "mass": {
                     "type": "string"
                 },
-                "password": {
+                "hair_color": {
                     "type": "string"
                 },
-                "avatar": {
+                "skin_color": {
                     "type": "string"
                 },
-                "bio": {
+                "eye_color": {
                     "type": "string"
                 },
-                "status": {
-                    "type": "string",
-                    "enum": [
-                        "enabled",
-                        "pending",
-                        "blocked"
-                    ]
-                },
-                "isEmailVerified": {
-                    "type": "boolean"
-                },
-                "forgotPasswordToken": {
+                "birth_year": {
                     "type": "string"
                 },
-                "lastLogin": {
+                "gender": {
+                    "type": "string"
+                },
+                "homeworld": {
+                    "type": "string"
+                },
+                "films": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "species": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "vehicles": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "spaceships": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "created": {
                     "type": "string",
                     "format": "date-time"
                 },
-                "createdAt": {
+                "edited": {
                     "type": "string",
                     "format": "date-time"
                 },
-                "updatedAt": {
-                    "type": "string",
-                    "format": "date-time"
+                "url": {
+                    "type": "string"
                 }
             },
             "xml": {
@@ -385,15 +412,15 @@
                 "name": "AddComment"
             }
         },
-        "ApiResponse": {
+        "FilmResponse": {
             "type": "object",
             "properties": {
                 "code": {
-                    "type": "integer",
-                    "format": "int32"
-                },
-                "type": {
                     "type": "string"
+                },
+                "statusCode": {
+                    "type": "integer",
+                    "format":"int64"
                 },
                 "message": {
                     "type": "string"
@@ -401,6 +428,38 @@
                 "data": {
                     "type": "object",
                     "properties": {
+                        "films": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Film"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "PeopleResponse": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "string"
+                },
+                "statusCode": {
+                    "type": "integer",
+                    "format":"int64"
+                },
+                "message": {
+                    "type": "string"
+                },
+                "data": {
+                    "type": "object",
+                    "properties": {
+                        "films": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/People"
+                            }
+                        },
                         "metadata": {
                             "type": "object",
                             "properties": {
@@ -422,6 +481,45 @@
                             }
                         }
                     }
+                }
+            }
+        },
+        "GetCommentsResponse": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "string"
+                },
+                "statusCode": {
+                    "type": "integer",
+                    "format":"int64"
+                },
+                "message": {
+                    "type": "string"
+                },
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Comment"
+                    }
+                }
+            }
+        },
+        "AddCommentsResponse": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "string"
+                },
+                "statusCode": {
+                    "type": "integer",
+                    "format":"int64"
+                },
+                "message": {
+                    "type": "string"
+                },
+                "data": {
+                    "$ref": "#/definitions/Comment"
                 }
             }
         }

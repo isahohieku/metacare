@@ -18,9 +18,9 @@ const dbConfig = {
         if (ENV === 'test') {
             return this.test;
         }
-        return this.development;
+        return this.main;
     },
-    development: {
+    main: {
         client: 'pg',
         connection: {
             host: DB_HOST,
